@@ -34,12 +34,15 @@ class RoomsController extends AppController
      */
     public function view($id = null)
     {
+        $seances = $this->Rooms->Showtimes->find()->where(['room_id' => $id]);
+        
         $room = $this->Rooms->get($id, [
             'contain' => []
         ]);
 
         $this->set('room', $room);
         $this->set('_serialize', ['room']);
+        $this->set('seances', $seances);
     }
 
     /**
@@ -50,6 +53,7 @@ class RoomsController extends AppController
     public function add()
     {
         $room = $this->Rooms->newEntity();
+        
         if ($this->request->is('post')) {
             $room = $this->Rooms->patchEntity($room, $this->request->getData());
             if ($this->Rooms->save($room)) {

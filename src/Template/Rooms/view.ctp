@@ -41,35 +41,47 @@
     </table>
     <div class="related">
         <h4><?= __('Related Showtimes') ?></h4>
-        <?php if (!empty($room->showtimes)): ?>
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Movie Id') ?></th>
-                <th scope="col"><?= __('Room Id') ?></th>
-                <th scope="col"><?= __('Start') ?></th>
-                <th scope="col"><?= __('End') ?></th>
-                <th scope="col"><?= __('Created') ?></th>
-                <th scope="col"><?= __('Modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <th scope="col"><?= __('Lundi') ?></th>
+                <th scope="col"><?= __('Mardi') ?></th>
+                <th scope="col"><?= __('Mercredi') ?></th>
+                <th scope="col"><?= __('Jeudi') ?></th>
+                <th scope="col"><?= __('Vendredi') ?></th>
+                <th scope="col"><?= __('Samedi') ?></th>
+                <th scope="col"><?= __('Dimanche') ?></th>
             </tr>
-            <?php foreach ($room->showtimes as $showtimes): ?>
-            <tr>
-                <td><?= h($showtimes->id) ?></td>
-                <td><?= h($showtimes->movie_id) ?></td>
-                <td><?= h($showtimes->room_id) ?></td>
-                <td><?= h($showtimes->start) ?></td>
-                <td><?= h($showtimes->end) ?></td>
-                <td><?= h($showtimes->created) ?></td>
-                <td><?= h($showtimes->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Showtimes', 'action' => 'view', $showtimes->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Showtimes', 'action' => 'edit', $showtimes->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Showtimes', 'action' => 'delete', $showtimes->id], ['confirm' => __('Are you sure you want to delete # {0}?', $showtimes->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
+            <?php
+            $dateDebutSemaine = new DateTime("monday this week");
+            
+            $lundi = array();
+            $mardi = array();
+            $mercredi = array();
+            $jeudi = array();
+            $vendredi = array();
+            $samedi = array();
+            $dimanche = array();
+            
+            foreach ($seances as $showtime){
+                $jour = $showtime->start->format('N');
+                
+                if ($jour == 0){
+                    array_push($lundi,$showtime);
+                }elseif($jour == 1){
+                    array_push($mardi,$showtime);
+                }elseif($jour == 2){
+                    array_push($mercredi,$showtime);
+                }elseif($jour == 3){
+                    array_push($jeudi,$showtime);
+                }elseif($jour == 4){
+                    array_push($vendredi,$showtime);
+                }elseif($jour == 5){
+                    array_push($samedi,$showtime);                  
+                }else{
+                    array_push($dimanche,$showtime);
+                }
+            }
+            ?>
         </table>
-        <?php endif; ?>
     </div>
 </div>
